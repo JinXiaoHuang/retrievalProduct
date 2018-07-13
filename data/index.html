@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="data.js"></script>
+    <script src="jquery.min.js"></script>
+    <script>
+        // console.log(data)
+    </script>
+</head>
+<body onload="">
+    <div class="container">
+        <div class="aside">
+            <ul>
+                <li class="active">
+                    <img src="https://upload.jianshu.io/collections/images/277031/645317897236768460.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="" srcset="">
+                    <span>地理</span>
+                    <i class="count">1</i>
+                </li>
+                <li class="">
+                        <img src="https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="" srcset="">
+                        <span>环保</span>
+                        <i class="count">5</i>
+                    </li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="con-item">
+                <div class="text-con">
+                </div>
+                <div class="q-con">
+                    <div class="q">
+                    </div>
+                    <div class="a">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+function init (itemData) {
+    // console.log(data)
+    for(var i = 0;i < itemData.length;i ++) {
+        var stringP = ''
+        var stringQ = ''
+        $('.content').append(`
+            <div class="con-item">
+              <div class="text-con">
+              </div>
+              <div class="q-con">
+                 <div class="q">
+                 </div>
+                 </div>
+              </div>
+            </div>
+       `)
+       for(var j = 0; j < itemData[i]['paragraph'].length; j++){
+           stringP = stringP + itemData[i]['paragraph'][j]['origin'][1]
+           $('.text-con').eq(i).text(stringP)
+       }
+       
+       for(var z=0; z < itemData[i]['question'].length; z++){
+           stringQ = stringQ + `<div class="q-item">${'(' + (z + 1) + ')' + '&nbsp;' + itemData[i]['question'][z]['Q'].replace(/[a-z]|[0-9]| |\//g,'')}</div>
+                                <div class="a-item">${'答案:' + itemData[i]['question'][z]['A']}</div>`
+           $('.q').eq(i).html(stringQ)
+       }
+    }
+}
+function switchType (data) {
+    var screenData = data.filter(function (item) {
+       return item.name === 'dl06'
+    })
+    console.log(screenData)
+    init(screenData)
+}
+$('.active').click(function() {
+    switchType(data)
+})
+</script>
+<style>
+  *{
+      padding: 0;
+      margin: 0;
+  }
+  a{
+      text-decoration: none;
+  }
+  li{
+      list-style: none;
+  }
+  .container{
+      width:960px;
+      margin: 0 auto;
+      overflow: hidden;
+      font-size:14px;
+  }
+  .container > div{
+      float:left;
+  }
+  .aside{
+      width:250px;
+      padding:20px 0;
+      border-right: 1px solid #f0f0f0;
+      box-sizing: border-box;
+      font-size:14px;
+      color:#333;
+  }
+  .aside li{
+      overflow: hidden;
+      padding:8px 20px;
+  }
+  .active{
+      background: #f0f0f0;
+  }
+  .aside img,.aside span {
+     float:left;
+     line-height: 40px;
+  }
+  .aside span{
+     margin-left:10px; 
+  }
+  .aside img{
+      width:40px;
+      height:40px;
+      border-radius: 100%;
+  }
+  .aside i{
+      float:right;
+      line-height: 40px;
+      font-size: 14px;
+      color: #969696;
+  }
+  .content{
+      padding:15px;
+      line-height: 25px;
+      width:680px;
+  }
+  .con-item{
+      margin-bottom: 20px;
+  }
+  .text-con{
+      text-indent: 30px;
+      margin-bottom: 10px;
+  }
+  .q-item{
+      margin: 0;
+      line-height: 30px;
+  }
+  i{
+     font-style: normal;
+  }
+</style>
