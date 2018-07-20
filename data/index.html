@@ -15,12 +15,12 @@
     <div class="container">
         <div class="aside">
             <ul>
-                <li class="active">
+                <li class="active aside-item">
                     <img src="https://upload.jianshu.io/collections/images/277031/645317897236768460.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="" srcset="">
                     <span>地理</span>
                     <i class="count">1</i>
                 </li>
-                <li class="">
+                <li class="aside-item">
                         <img src="https://upload.jianshu.io/collections/images/261938/man-hands-reading-boy-large.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="" srcset="">
                         <span>环保</span>
                         <i class="count">5</i>
@@ -43,9 +43,11 @@
 </body>
 </html>
 <script>
+    console.log(data)
+    var titleData = ['dl', 'hb']
 function init (itemData) {
     // console.log(data)
-    for(var i = 0;i < itemData.length;i ++) {
+    for (var i = 0;i < itemData.length;i ++) {
         var stringP = ''
         var stringQ = ''
         $('.content').append(`
@@ -59,28 +61,57 @@ function init (itemData) {
               </div>
             </div>
        `)
-       for(var j = 0; j < itemData[i]['paragraph'].length; j++){
+       for (var j = 0; j < itemData[i]['paragraph'].length; j++) {
            stringP = stringP + itemData[i]['paragraph'][j]['origin'][1]
            $('.text-con').eq(i).text(stringP)
        }
        
-       for(var z=0; z < itemData[i]['question'].length; z++){
+       for (var z=0; z < itemData[i]['question'].length; z++){
            stringQ = stringQ + `<div class="q-item">${'(' + (z + 1) + ')' + '&nbsp;' + itemData[i]['question'][z]['Q'].replace(/[a-z]|[0-9]| |\//g,'')}</div>
                                 <div class="a-item">${'答案:' + itemData[i]['question'][z]['A']}</div>`
            $('.q').eq(i).html(stringQ)
        }
     }
 }
-function switchType (data) {
+function switchType (data, type) {
     var screenData = data.filter(function (item) {
-       return item.name === 'dl06'
+       return item.name === 'dl02'
     })
     console.log(screenData)
     init(screenData)
 }
-$('.active').click(function() {
-    switchType(data)
-})
+// $('.active').click(function() {
+//     console.log(111)
+//     switchType(data)
+// })
+function selectData (data) {
+    var arr = []
+    var string = ''
+    for (var i = 0; i < titleData.length; i++) {
+       var obj = new Object()
+       var title = data.filter(function (item) {
+          return item.name.indexOf(titleData[i]) > -1
+       })
+       obj['size'] = title.length
+       obj['name'] = '地理'
+       obj['abbreviation'] = title[0]['name']
+       arr.push(obj)
+    }
+    console.log(arr)
+    for (var i = 0; i < arr.length; i ++) {
+      string = string + `<li class="active">
+                               <img src="https://upload.jianshu.io/collections/images/277031/645317897236768460.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120" alt="" srcset="">
+                               <span>${arr[i]['name']}</span>
+                               <i class="count">${arr[i]['size']}</i>
+                            </li>`
+    }
+    $('.aside ul').html(string)
+    $('.active').click(function() {
+      console.log(111)
+      switchType(data)
+   })
+}
+selectData(data)
 </script>
 <style>
   *{
